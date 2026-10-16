@@ -1,7 +1,7 @@
-extends Node2D
+extends CharacterBody2D
 
 var direction: Vector2 = Vector2(1,1)
-var speed: int = 5
+var speed: int = 200
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
@@ -24,12 +24,26 @@ func _physics_process(_delta: float) -> void:
 		#position += direction * speed
 		
 	direction = Input.get_vector("left", "right", "up", "down")
-	position += direction * speed
+	velocity = direction * speed
+	animation()
+	move_and_slide()
 	
 	if Input.is_action_just_pressed("comfirm"):
 		print('something')
+	
+func animation():
+	if direction:
+		#只有左右移动时才改变朝向，上下移动保留上次朝向
+		if direction.x != 0:
+			$AnimatedSprite2D.animation = 'left'
+			$AnimatedSprite2D.flip_h = direction.x > 0
+		else:
+			#只有上下单独按才会播放
+			$AnimatedSprite2D.animation = 'up' if direction.y < 0 else 'down'
+	else:
+		$AnimatedSprite2D.frame = 0
 
-
+ 
 
 
 # Called when the node enters the scene tree for the first time.
