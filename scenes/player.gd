@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 var direction: Vector2 = Vector2(1,1)
-var speed: int = 200
+var speed: int = 150
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:

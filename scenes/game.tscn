@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://doghmovcgeltw" path="res://graphics/map.png" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://bjy1c24lq0gf7" path="res://scenes/player.tscn" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://6rt6j4h172du" path="res://scenes/tree.tscn" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://c74s4fvhlodb5" path="res://scenes/box.tscn" id="5_iywne"]
+[ext_resource type="FontFile" uid="uid://hqpa84d2dqvp" path="res://fonts/Better VCR 9.0.1.ttf" id="6_p57ef"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vkqoe"]
 size = Vector2(20, 680)
@@ -19,10 +21,14 @@ script = ExtResource("1_lbhrr")
 
 [node name="Map" type="Sprite2D" parent="." unique_id=1446021470]
 texture = ExtResource("1_yqjtg")
+metadata/_edit_lock_ = true
 
 [node name="Borders" type="Node2D" parent="." unique_id=1746161190]
+metadata/_edit_lock_ = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Borders" unique_id=1542854894]
+collision_layer = 8
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D" unique_id=1874208549]
 position = Vector2(-202, -1)
@@ -41,23 +47,25 @@ position = Vector2(0, 329)
 shape = SubResource("RectangleShape2D_gjxql")
 
 [node name="FinishArea2D" type="Area2D" parent="Borders" unique_id=261291724]
+collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Borders/FinishArea2D" unique_id=1536849371]
-polygon = PackedVector2Array(-197, -327, -198, -136, 199, -136, 197, -327)
+position = Vector2(2.0532227, -5.407379)
+scale = Vector2(0.9935453, 0.98592925)
+polygon = PackedVector2Array(-196.32042, -319.08234, -195.31392, -130.42783, 191.1808, -130.42783, 191.1808, -319.08234)
 
 [node name="Timer2D" type="Node" parent="." unique_id=1020133043]
 
 [node name="CarTimer" type="Timer" parent="Timer2D" unique_id=569809614]
+wait_time = 0.2
 autostart = true
 
-[node name="Objects" type="Node2D" parent="." unique_id=837544291]
-
-[node name="Player" parent="Objects" unique_id=1977469378 instance=ExtResource("2_lnu2h")]
-
-[node name="Tree" parent="Objects" unique_id=168570443 instance=ExtResource("3_lnu2h")]
-position = Vector2(97, 43)
+[node name="ScoreTimer" type="Timer" parent="Timer2D" unique_id=990722185]
+autostart = true
 
 [node name="CarStartPositions" type="Node2D" parent="." unique_id=1174920670]
+metadata/_edit_lock_ = true
 
 [node name="Marker2D7" type="Marker2D" parent="CarStartPositions" unique_id=431810397]
 position = Vector2(200.55556, 101.98639)
@@ -86,5 +94,51 @@ position = Vector2(199.22221, -24.01361)
 [node name="Marker2D9" type="Marker2D" parent="CarStartPositions" unique_id=2137741564]
 position = Vector2(195.88887, -102.01362)
 
+[node name="Objects" type="Node2D" parent="." unique_id=837544291]
+y_sort_enabled = true
+
+[node name="Player" parent="Objects" unique_id=1977469378 instance=ExtResource("2_lnu2h")]
+
+[node name="Tree3" parent="Objects" unique_id=108942266 instance=ExtResource("3_lnu2h")]
+position = Vector2(121, 27)
+
+[node name="Tree2" parent="Objects" unique_id=57635089 instance=ExtResource("3_lnu2h")]
+position = Vector2(59, 27)
+
+[node name="Tree7" parent="Objects" unique_id=183023273 instance=ExtResource("3_lnu2h")]
+position = Vector2(181, 28)
+
+[node name="Tree8" parent="Objects" unique_id=888973728 instance=ExtResource("3_lnu2h")]
+position = Vector2(-182, 26)
+
+[node name="Tree10" parent="Objects" unique_id=1265419909 instance=ExtResource("3_lnu2h")]
+position = Vector2(-96, 27)
+
+[node name="Tree14" parent="Objects" unique_id=173049405 instance=ExtResource("3_lnu2h")]
+position = Vector2(-10, 27)
+
+[node name="Box" parent="Objects" unique_id=229283378 instance=ExtResource("5_iywne")]
+position = Vector2(-27, -73)
+
+[node name="Box2" parent="Objects" unique_id=1184330357 instance=ExtResource("5_iywne")]
+position = Vector2(57, 75)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Objects" unique_id=1070065244]
+
+[node name="Label" type="Label" parent="Objects/CanvasLayer" unique_id=1619847907]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -39.0
+offset_top = 20.0
+offset_right = 39.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("6_p57ef")
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+
 [connection signal="body_entered" from="Borders/FinishArea2D" to="." method="_on_finish_area_2d_body_entered"]
 [connection signal="timeout" from="Timer2D/CarTimer" to="." method="_on_car_timer_timeout"]
+[connection signal="timeout" from="Timer2D/ScoreTimer" to="." method="_on_score_timer_timeout"]

@@ -6,6 +6,7 @@
 size = Vector2(8, 20)
 
 [node name="ExerciseObject" type="StaticBody2D" unique_id=108942266]
+collision_mask = 0
 
 [node name="Tree1" type="Sprite2D" parent="." unique_id=582773124]
 texture = ExtResource("1_iphuf")
